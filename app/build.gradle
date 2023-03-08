@@ -25,6 +25,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (variant.buildType.name == "debug") {
+                def abi = output.getFilter(com.android.build.OutputFile.ABI)
+                output.outputFileName  = new File("web_screen-" + (versionName + "-" + "debug") + "-" + (abi ? abi : "universal") + ".apk")
+            } else if (variant.buildType.name == "release") {
+                def abi = output.getFilter(com.android.build.OutputFile.ABI)
+                output.outputFileName  = new File("web_screen-" + (versionName + "-" + "release") + "-" + (abi ? abi : "universal") + ".apk")
+            }
+        }
+    }
 }
 
 dependencies {
